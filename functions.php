@@ -1,11 +1,24 @@
 <?php
+//检测更新
+require 'inc/theme-update/theme-update-checker.php';
+$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+    'https://cdn.jsdelivr.net/gh/hjthjthjt/hjthjthjt/HourglassTwins/details.json',
+    __FILE__, //Full path to the main plugin file or functions.php.
+    'unique-plugin-or-theme-slug'
+);
 
-//设置页面标题
+//重新显示删除的 WordPress 链接管理器
+add_filter( 'pre_option_link_manager_enabled', '__return_true' );
+
+//添加设置页面
+define( 'OPTIONS_FRAMEWORK_DIRECTORY', get_template_directory_uri() . '/inc/' );
+require_once dirname( __FILE__ ) . '/inc/options-framework.php';
+
+//页面标题
 function theme_title()
 {
     add_theme_support('title-tag');
 }
-
 add_action('after_setup_theme', 'theme_title');
 
 //屏蔽s.w.org
@@ -16,7 +29,6 @@ function my_enqueue_scripts()
 {
     wp_deregister_script('jquery');
 }
-
 add_action('wp_enqueue_scripts', 'my_enqueue_scripts', 1);
 
 //将上传的图片文件用时间命名
@@ -30,28 +42,6 @@ function custom_upload_filter($file)
     return $file;
 }
 
-//显示网站运营版权时间 by Daniel Ting
-function auto_copyright()
-{
-    global $wpdb;
-    $first = $wpdb->get_results(" 
-    SELECT user_registered
-    FROM   $wpdb->users  
-    ORDER BY  ID ASC 
-    LIMIT 0,1
-    ");
-    $output = '';
-    $current = date(Y);
-    if ($first) {
-        $first = date(Y, strtotime($first[0]->user_registered));
-        $copyright = "&copy; " . $first;
-        if ($first != $current) {
-            $copyright .= ' - ' . $current;
-        }
-        $output = $copyright;
-    }
-    echo $output;
-}
 
 /**FancyBox图片灯箱，大致修改版**/
 add_filter('the_content', 'fancybox');
@@ -205,6 +195,52 @@ function HT_GetUserAgent($ua)
     return $br;
 }
 
+//邮件通知 by Qiqiboy
+function comment_mail_notify($comment_id)
+{
+    $comment = get_comment($comment_id);//根据id获取这条评论相关数据
+    $content = $comment->comment_content;
+    //对评论内容进行匹配
+    $match_count = preg_match_all('/<a href="#comment-([0-9]+)?" rel="nofollow">/si', $content, $matchs);
+    if ($match_count > 0) {//如果匹配到了
+        foreach ($matchs[1] as $parent_id) {//对每个子匹配都进行邮件发送操作
+            SimPaled_send_email($parent_id, $comment);
+        }
+    } elseif ($comment->comment_parent != '0') {//以防万一，有人故意删了@回复，还可以通过查找父级评论id来确定邮件发送对象
+        $parent_id = $comment->comment_parent;
+        SimPaled_send_email($parent_id, $comment);
+    } else return;
+}
+add_action('comment_post', 'comment_mail_notify');
+
+//发送邮件的函数 by Qiqiboy.com
+function SimPaled_send_email($parent_id, $comment)
+{
+    $admin_email = get_bloginfo('admin_email');//管理员邮箱
+    $parent_comment = get_comment($parent_id);//获取被回复人（或叫父级评论）相关信息
+    $author_email = $comment->comment_author_email;//评论人邮箱
+    $to = trim($parent_comment->comment_author_email);//被回复人邮箱
+    $spam_confirmed = $comment->comment_approved;
+    if ($spam_confirmed != 'spam' && $to != $admin_email && $to != $author_email) {
+
+        $wp_email = get22min("email_notice",""); // e-mail 發出點, no-reply 可改為可用的 e-mail.
+
+        $subject = '您于「' . get_the_title($comment->comment_post_ID) . '」文章的评论，有了新的回应';
+        $message = '<p>您好，<code>' . trim(get_comment($parent_id)->comment_author) . '</code></p>'.
+            '<p>您曾在 <code>' . get_option('blogname') . '</code> 的「' . get_the_title($comment->comment_post_ID) . '」中留下过评论:</p>'.
+            '<p class="com-content">' . trim(get_comment($parent_id)->comment_content) . '</p>'.
+            '<br><p>' . trim($comment->comment_author) . ' 给您的回复如下：</p>'.
+            '<p class="com-content">' . trim($comment->comment_content) . '</p>'.
+            '<p style="border-top: 1px solid #DDDDDD; padding-top:6px; margin-top:15px; color:#838383;">您可以点击此链接<a href="' . htmlspecialchars(get_comment_link($parent_id, array("type" => "all"))) . '">查看完整内容</a>| 欢迎再次来访<a href="' . get_option('home') . '">' . get_option('blogname') . '</a></p>'.
+            '<p style="color: #bbb;margin-top: 40px;">请不要回复该邮件，它是由程序自动发出的。</p>'.
+            '<style>.com-content{background: #f3f3f3;color: #333;border-radius: 4px;margin-bottom: 1.6em;max-width: 100%;overflow: auto;padding: 1.6em;max-height: 650px;}code{color: #333;background: #f3f3f3;padding: 2px;border-radius: 4px;}</style>';
+        $from = "From: \"" . get_option('blogname') . "\" <$wp_email>";
+        $headers = "$from\nContent-Type: text/html; charset=" . get_option('blog_charset') . "\n";
+        wp_mail($to, $subject, $message, $headers);
+    }
+}
+
+
 //自定义评论列表模板，来自 https://dedewp.com/17366.html
 function zmblog_comment($comment, $args, $depth)
 {
@@ -219,12 +255,9 @@ $GLOBALS['comment'] = $comment; ?>
         <div class="media-body">
             <?php printf(__('<p class="author_name">%s'), get_comment_author_link());
             echo " " . HT_GetUserAgent($comment->comment_agent) . "</p>"; ?>
-            <?php if ($comment->comment_approved == '0') : ?>
-                <em>评论等待审核...</em><br/>
-            <?php endif; ?>
             <div class="comment-metadata">
    			<span class="comment-pub-time">
-   				<?php echo get_comment_time('Y-m-d H:i'); ?>
+   				<?php echo get_comment_time('Y-m-d H:i')." "; if ($comment->comment_approved == '0') echo "<em>您的评论需要等待审核…</em>"?>
    			</span>
                 <?php comment_reply_link(array_merge($args, array('reply_text' => '<i class=\"fas fa-reply\"></i> 回复', 'depth' => $depth, 'max_depth' => $args['max_depth']))) ?> <?php edit_comment_link(__('(Edit)'), '&nbsp;&nbsp;', ''); ?>
             </div>

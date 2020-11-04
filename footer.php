@@ -14,7 +14,7 @@
     <p>Powered by<a href="https://cn.wordpress.org/" target="_blank" title="优雅的个人发布平台">WordPress</a> with Theme <a
                 href="https://jakting.com/archives/hourglass-twins.html" target="_blank">HourglassTwins</a><br>
 
-        Copyright <?php auto_copyright(); ?> <?php bloginfo('name') ?>
+        Copyright &copy; <?php echo get22min("found_year", "2012") . ' - ' . date('Y') ?> <?php bloginfo('name') ?>
         <?php get_search_form(); ?>
     </p>
 
@@ -22,6 +22,8 @@
 </footer>
 </div>
 <script src="<?php echo get_template_directory_uri(); ?>/resource/js/jquery.fancybox.min.js"></script>
+<?php if (get22min('analysis_place', '0')==1) {
+    echo get22min("analysis", "");} ?>
 <?php wp_footer(); ?>
 
 </body>

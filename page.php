@@ -13,8 +13,8 @@ get_header();
             <span title="发表于 <?php the_time('Y 年 m 月 d 日') ?>"><i
                         class="fas fa-hourglass-start"></i> <?php the_time('Y 年 m 月 d 日') ?></span> / <span
                 title="修改于：<?php the_modified_time('Y 年 m 月 d 日') ?>"><i
-                    class="fas fa-hourglass-end"></i> <?php the_modified_time('Y 年 m 月 d 日') ?>
-            <?php edit_post_link(' [编辑页面]', '<span>', '</span>', 0, ''); ?></span>
+                    class="fas fa-hourglass-end"></i> <?php the_modified_time('Y 年 m 月 d 日') ?></span>
+            <?php edit_post_link(' [编辑页面]', '<span>', '</span>', 0, ''); ?>
         <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
             <div class="post-content">
                 <?php $content = article_toc(apply_filters('the_content', get_the_content()));

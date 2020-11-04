@@ -1,13 +1,13 @@
 /*!
 Theme Name: HourglassTwins
-Theme URI: https://jakting.com
+Theme URI: https://jakting.com/archives/hourglass-twins.html
 Author: hjthjthjt
-Author URI: https://jakting.com/archives/hourglass-twins.html
+Author URI: https://jakting.com/
 Description: A Wordpress Theme close to the sun.
-Version: 1.0.0
+Version: 1.0.1
 License: Apache License 2.0
 License URI: http://www.apache.org/licenses/
-Tags: light
+Tags: light,dark
 */
 
 * {
@@ -620,7 +620,7 @@ address {
 code, kbd, tt, var {
     color: var(--main);
     background: var(--code);
-    padding: 2px 0 2px 0;
+    padding: 2px;
     border-radius: 4px;
 }
 
@@ -1050,7 +1050,14 @@ img.avatar {
     font-size: 18px;
     border-bottom: 1px solid #f1f1f1;
 }
-
+/*h3.comments-title {*/
+/*    content: '';*/
+/*    top: 29px;*/
+/*    left: 0;*/
+/*    width: 135px;*/
+/*    height: 1px;*/
+/*    background: #424242;*/
+/*}*/
 h3.comments-title:after {
     content: '';
     top: 29px;

@@ -2,16 +2,18 @@
 <html <?php language_attributes(); ?>>
 <html prefix="og: http://ogp.me/ns#">
 <head>
+    <?php if (get22min('analysis_place', '0')==0) {
+        echo get22min("analysis", "");} ?>
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="<?php echo get_stylesheet_uri(); ?>">
     <link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/favicon.ico"/>
     <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/resource/css/all.min.css">
-    <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/resource/css/jquery.fancybox.min.css">
-    <script src="<?php echo get_template_directory_uri(); ?>/resource/js/jquery.min.js"></script>
-    <script src="<?php echo get_template_directory_uri(); ?>/resource/js/all.js"></script>
     <link rel="profile" href="http://gmpg.org/xfn/11">
     <?php if (is_single() || is_page()) { ?>
+        <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/resource/css/jquery.fancybox.min.css">
+        <script src="<?php echo get_template_directory_uri(); ?>/resource/js/jquery.min.js"></script>
+        <script src="<?php echo get_template_directory_uri(); ?>/resource/js/all.js"></script>
         <meta property="og:title" name="title" content="<?php the_title(); ?>"/>
         <meta property="og:description" content="<?php the_excerpt(); ?>"/>
         <meta property="og:site_name" content="<?php bloginfo("name"); ?>"/>

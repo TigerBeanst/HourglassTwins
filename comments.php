@@ -28,7 +28,7 @@ if (post_password_required())
     <nav class="comment-navigation u-textAlignCenter" data-fuck="<?php the_ID(); ?>" id="comment-nav">
         <?php paginate_comments_links(array('prev_next' => true)); ?>
     </nav>
-    <?php if (comments_open()) : ?>
+    <?php global $user_ID, $user_identity,$comment_author,$comment_author_email,$comment_author_url;if (comments_open()) : ?>
         <div class="mdui-typo-headline">发表评论</div>
         <div id="respond" class="respond" role="form">
             <h2 id="reply-title" class="comments-title"><?php comment_form_title('', '回复给 %s'); ?> <small>
