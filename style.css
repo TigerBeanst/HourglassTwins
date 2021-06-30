@@ -19,12 +19,13 @@ Tags: light,dark
     margin: 0 auto;
 }
 
-#searchform #s{
+#searchform #s {
     height: 32px;
     width: 200px;
     margin-right: 5px;
 }
-#searchform div{
+
+#searchform div {
     display: flex;
     justify-content: center;
 }
@@ -624,6 +625,10 @@ code, kbd, tt, var {
     border-radius: 4px;
 }
 
+.wp-block-code code {
+    word-spacing: 0.3em;
+}
+
 pre code:not(.hljs):not([class*="language-"]) {
     background: var(--code);
     color: var(--main);
@@ -979,7 +984,7 @@ a.to-top {
 /*--------------------------------------------------------------
 ## Comments
 --------------------------------------------------------------*/
-.comment .children,.comment .children li {
+.comment .children, .comment .children li {
     margin-bottom: 0;
 }
 
@@ -1028,6 +1033,11 @@ img.avatar {
     margin-top: 3px;
 }
 
+.comment .media .media-left img.avatar {
+    height: 48px !important;
+    width: 48px !important;
+}
+
 .reply {
     margin-left: 40px;
 }
@@ -1050,6 +1060,7 @@ img.avatar {
     font-size: 18px;
     border-bottom: 1px solid #f1f1f1;
 }
+
 /*h3.comments-title {*/
 /*    content: '';*/
 /*    top: 29px;*/
@@ -1086,7 +1097,6 @@ h3.comments-title:after {
 }
 
 .comment .media-left {
-    display: table-cell;
     vertical-align: top;
     padding-right: 10px;
 }
@@ -1110,6 +1120,7 @@ h3.comments-title:after {
     font-size: 16px;
     line-height: 1.5em;
     margin-bottom: 10px;
+    word-break: break-all;
 }
 
 
@@ -1495,7 +1506,7 @@ svg * {
 }
 
 .post-tags,
-.post-content ol li{
+.post-content ol li {
     word-wrap: break-word;
     word-break: break-all;
 }

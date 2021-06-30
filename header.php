@@ -8,11 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="<?php echo get_stylesheet_uri(); ?>">
     <link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/favicon.ico"/>
-    <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/resource/css/all.min.css">
     <link rel="profile" href="http://gmpg.org/xfn/11">
     <?php if (is_single() || is_page()) { ?>
-        <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/resource/css/jquery.fancybox.min.css">
         <script src="<?php echo get_template_directory_uri(); ?>/resource/js/jquery.min.js"></script>
+        <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/resource/css/fancybox.min.css">
         <script src="<?php echo get_template_directory_uri(); ?>/resource/js/all.js"></script>
         <meta property="og:title" name="title" content="<?php the_title(); ?>"/>
         <meta property="og:description" content="<?php the_excerpt(); ?>"/>

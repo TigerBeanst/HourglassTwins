@@ -21,7 +21,8 @@
     <p><a class="menu" href="#top"><i class="fas fa-arrow-up"></i> 回到顶部 <i class="fas fa-arrow-up"></i></a></p>
 </footer>
 </div>
-<script src="<?php echo get_template_directory_uri(); ?>/resource/js/jquery.fancybox.min.js"></script>
+<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/resource/css/all.min.css">
+<script src="<?php echo get_template_directory_uri(); ?>/resource/js/fancybox.umd.js"></script>
 <?php if (get22min('analysis_place', '0')==1) {
     echo get22min("analysis", "");} ?>
 <?php wp_footer(); ?>
