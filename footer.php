@@ -21,10 +21,17 @@
     <p><a class="menu" href="#top"><i class="fas fa-arrow-up"></i> 回到顶部 <i class="fas fa-arrow-up"></i></a></p>
 </footer>
 </div>
+
 <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/resource/css/all.min.css">
-<script src="<?php echo get_template_directory_uri(); ?>/resource/js/fancybox.umd.js"></script>
-<?php if (get22min('analysis_place', '0')==1) {
-    echo get22min("analysis", "");} ?>
+<?php if (is_single() || is_page()) { ?>
+    <script src="<?php echo get_template_directory_uri(); ?>/resource/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/resource/css/fancybox.min.css">
+    <script src="<?php echo get_template_directory_uri(); ?>/resource/js/fancybox.umd.js"></script>
+    <script src="<?php echo get_template_directory_uri(); ?>/resource/js/all.js"></script>
+<?php } ?>
+<?php if (get22min('analysis_place', '0') == 1) {
+    echo get22min("analysis", "");
+} ?>
 <?php wp_footer(); ?>
 
 </body>

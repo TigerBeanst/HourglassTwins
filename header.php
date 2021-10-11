@@ -10,9 +10,6 @@
     <link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/favicon.ico"/>
     <link rel="profile" href="http://gmpg.org/xfn/11">
     <?php if (is_single() || is_page()) { ?>
-        <script src="<?php echo get_template_directory_uri(); ?>/resource/js/jquery.min.js"></script>
-        <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/resource/css/fancybox.min.css">
-        <script src="<?php echo get_template_directory_uri(); ?>/resource/js/all.js"></script>
         <meta property="og:title" name="title" content="<?php the_title(); ?>"/>
         <meta property="og:description" content="<?php the_excerpt(); ?>"/>
         <meta property="og:site_name" content="<?php bloginfo("name"); ?>"/>
@@ -20,7 +17,7 @@
         <meta property="og:title" content="<?php bloginfo("name"); ?>"/>
         <meta property="og:description" content="<?php bloginfo('description'); ?>"/>
     <?php } ?>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link href="<?php echo get_template_directory_uri(); ?>/resource/google_fonts/fonts.css" rel="preload" as="style" onload="this.rel='stylesheet'">
 
     <?php wp_head(); ?>
 </head>
