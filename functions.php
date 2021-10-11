@@ -311,6 +311,7 @@ function clear_db_cache_archives_list()
 
 add_action('save_post', 'clear_db_cache_archives_list'); // 新发表文章/修改文章时
 
+require('resource/js/ajax-comment/main.php');
 
 //自定义评论列表模板，来自 https://dedewp.com/17366.html
 function zmblog_comment($comment, $args, $depth)
@@ -337,8 +338,3 @@ $GLOBALS['comment'] = $comment; ?>
         </div>
     </div>
     <?php } ?>
-    <?php
-
-    //Ajax 评论提交
-    require('resource/js/ajax-comment/main.php');
-    ?>
